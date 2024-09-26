@@ -13,6 +13,8 @@ public interface BoardService {
 
     public List<BoardDTO> selectAll();
 
+    public BoardDTO read(Long bno);
+
     public void update(BoardDTO boardDTO);
 
     public void delete(Long bno);

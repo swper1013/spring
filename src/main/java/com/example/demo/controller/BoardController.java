@@ -81,8 +81,56 @@ public class BoardController {
 
      model.addAttribute("boardDTOPageResponesDTO", boardDTOPageResponesDTO);
 
-     return  null;
+     return  "board/list";
     }
+
+    @GetMapping("/read")
+    public String readOne(Long bno, Model model){
+
+        model.addAttribute("boardDTO", boardService.read(bno));
+
+
+        return "board/read";
+    }
+
+    @GetMapping("/modify")
+    public String modify(Long bno, Model model){
+
+        //수정할 내용을 찾아서 뿌려줍니다.
+        model.addAttribute("boardDTO", boardService.read(bno));
+
+
+        return "board/modify";
+    }
+
+    @PostMapping("/modify")
+    public String modify(@Valid BoardDTO boardDTO, BindingResult bindingResult
+    ){
+
+        log.info(boardDTO);
+
+        if(bindingResult.hasErrors()) { //유효성검사간 에러가 있니?
+
+            log.info("에러");
+            log.info("에러");
+            log.info("에러");
+            log.info("에러");
+            log.info(bindingResult.getAllErrors()); //유효성검사에 대한 결과
+            //redirectAttributes.addAttribute("errors", bindingResult.getAllErrors());
+//            model.addAttribute("boardDTO" , boardDTO);
+            return "board/modify";
+        }
+
+            //수정할 내용을 찾아서 뿌려줍니다.
+
+        boardService.update(boardDTO);
+
+        return "redirect:/board/list";
+    }
+
+
+
+
 
 
 
