@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +47,17 @@ public class BoardServiceImpl implements BoardService {
         boardList.stream().map(abc -> mapper.map(abc, BoardDTO.class)).collect(Collectors.toList());
 
         return boardDTOList;
+    }
+
+    @Override
+    public BoardDTO read(Long bno) {
+
+        Board board =
+        boardRepository.findById(bno)
+                .orElseThrow(EntityNotFoundException::new); //select * from board  where bno = 파라미터
+
+        BoardDTO boardDTO =  mapper.map(board, BoardDTO.class);
+        return boardDTO;
     }
 
     @Override
