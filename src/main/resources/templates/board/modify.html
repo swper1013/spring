@@ -1,10 +1,53 @@
-list.html<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout1.html}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+
+<div layout:fragment="content">
+
+    <div class="row mt-5">
+        <div class="col shadow" >
+
+            <form action="/board/modify" method="post" th:object="${boardDTO}">
+
+                <input type="hidden" name="bno" th:value="${boardDTO.bno}">
+
+            <div class="row mt-2">
+                <div class="col">제목</div>
+                <div class="col" th:text="${boardDTO.title}"> </div>
+                <input name="title" th:field="*{title}" class="" th:value="${boardDTO.title}">
+                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"  class="fieldError">
+
+            </div>
+            <div class="row mt-2">
+                <div class="col">내용</div>
+            </div>
+            <div class="row mt-2 mb-3">
+                <div class="col" th:text="${boardDTO.content}"> </div>
+                <textarea th:field="*{content}" name="content">[[${boardDTO.content}]]</textarea>
+                <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"  class="fieldError">
+            </div>
+
+            <button type="submit" class="btn btn-dark">수정</button>
+
+            <a th:href="@{/board/del(bno=${boardDTO.bno})}" class="btn btn-dark">삭제</a>
+
+            <a href="/board/list"  type="button"  class="btn btn-dark">목록</a>
+
+            </form>
+        </div>
+
+
+    </div>
+
+</div>
+
 
 </body>
 </html>

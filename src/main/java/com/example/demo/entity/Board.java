@@ -37,4 +37,12 @@ public class Board extends BaseEntity {
     //등록일자 혹은 만든이 기타등등이 들어감
 
 
+    public Board setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+    public Board asdasdad(String title) {
+        this.content =  title;
+        return this;
+    }
 }

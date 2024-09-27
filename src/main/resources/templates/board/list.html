@@ -16,7 +16,7 @@
 
                 <nav class="navbar bg-body-tertiary">
                     <div class="container-fluid">
-                        <form class="d-flex" role="search" action="/board/list" method="get"
+                        <form class="d-flex formObj" role="search" action="/board/list" method="get"
                               th:object="${pageRequestDTO}">
 
                             <select name="type" th:field="*{type}" class="form-select" aria-label="Default select example">
@@ -31,7 +31,7 @@
                             <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
-                        <button type="button" class="btn btn-dark">등록</button>
+                        <a href="/board/register"  type="button"  class="btn btn-dark">등록</a>
                     </div>
 
                 </nav>
@@ -46,7 +46,8 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">제목임</th>
-                            <th scope="col">내용임</th>
+                            <th scope="col">제목임</th>
+                            <!--<th scope="col">내용임</th>-->
                             <th scope="col">작성자임</th>
                             <th scope="col">등록날짜임</th>
                         </tr>
@@ -55,8 +56,20 @@
                         <th:block th:each="list: ${boardDTOPageResponesDTO.dtoList}">
                             <tr>
                                 <th scope="row" th:text="${list.bno}">1</th>
-                                <td  th:text="${list.title}">Mark</td>
-                                <td  th:text="${list.content}">Otto</td>
+                                <td  >
+                                    <a th:href="@{/board/read(bno=${list.bno})}">
+                                        [[${list.title}]]
+                                    </a>
+
+                                </td>
+                                <td >
+                                    <div  class="kkkk" th:data-bno="${list.bno}">
+                                        [[${list.title}]]
+                                    </div>
+
+
+                                </td>
+
                                 <td  th:text="${list.writer}">@mdo</td>
                                 <td  th:text="${list.regidate}">@mdo</td>
                             </tr>
@@ -64,15 +77,97 @@
 
                         </tbody>
                     </table>
+
+
                 </th:block>
+
+                <div class="row text-center">
+                    <!--페이징-->
+                    <div class="col">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination justify-content-center">
+                                <li th:if="${boardDTOPageResponesDTO.prev}" class="paginate_button previous " aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                    <a class="page-link" th:data-num="${boardDTOPageResponesDTO.start -1}">Previous</a>
+                                </li>
+
+                                <!--thymleaf에는 순서를 표기하는 #numbers.sequence가 있다.-->
+                                <th:block th:each="i: ${#numbers.sequence(boardDTOPageResponesDTO.start,boardDTOPageResponesDTO.end)}">
+                                    <li th:class="${boardDTOPageResponesDTO.page == i} ? 'paginate_button active':''" aria-controls="dataTables-example" tabindex="0">
+                                        <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                    </li>
+                                </th:block>
+
+                                <li th:if="${boardDTOPageResponesDTO.next}" class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                    <a class="page-link" th:data-num="${boardDTOPageResponesDTO.end +1}">Next</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> <!--페이징 처리-->
+
+
+                </div> <!--col -->
+
+
+            <div class="col shadow kaka">
+
+                <div>
+                    제목 :
+                </div>
+                <div class="ti">
+
+                </div>
+                <div>
+                    내용
+                </div>
+                <div class="con">
+
+                </div>
+                <button class="dada">닫기</button>
 
             </div>
 
         </div>
 
 
+        <script th:inline="javascript">
+
+
+            let  aa = [[${boardDTOPageResponesDTO.dtoList}]]
+            console.log(aa)
+
+                $( document ).ready(function() {
+                    document.querySelector(".pagination").addEventListener("click", function (e){
+
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        let target = e.target;
+
+
+                        if (target.tagName !== 'A'){
+                            return;
+                        }
+
+                        let num = target.getAttribute("data-num");
+                        // console.log(num);
+
+                        let formObj = document.querySelector(".formObj");
+
+                        formObj.innerHTML += `<input type="hidden" name="page" value="${num}">`;
+
+
+                        formObj.submit();
+
+                    })
+
+                });
+
+
+        </script>
+
 
     </div>
+
 
 </body>
 </html>

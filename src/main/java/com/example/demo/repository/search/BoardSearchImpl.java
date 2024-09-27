@@ -62,14 +62,17 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
             }
 
             query.where(booleanBuilder);
+            System.out.println("where 문 추가" + query);
         }
 
 
 
 
-        System.out.println("where 문 추가" + query);
+
 
         query.where(board.bno.gt(0L));
+        System.out.println("where 문 추가" + query);
+
 
         //select * from board where (title = %keyword%  or content = %keyword%) and bno >= 0;
 
@@ -83,6 +86,8 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         boardList.forEach(board1 -> log.info(board1));
 
         long count =  query.fetchCount(); //row수
+
+
 
         return new PageImpl<>(boardList, pageable, count);
     }
