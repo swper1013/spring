@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout1.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div layout:fragment="content">
+
+        <h1>로그인</h1>
+        <form action="/user/login" method="post">
+            <div class="row mt-5">
+                <div class="col-6 offset-3 shadow ">
+
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger mt-4">
+                            사용자ID 또는 비밀번호를 확인해 주세요.
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3 mt-3">
+                        <label for="email" class="form-label">이메일</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="여기다가 이멜을써봐"  required>
+
+
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="password" class="form-label">password</label>
+                        <input type="text" class="form-control" name="password" id="password" placeholder="여기다가 비밀번" required>
+
+
+                    </div>
+
+
+                        <div class="text-center mt-4">
+                            <button  class="btn btn-dark">로그인</button>
+                            <a type="button" href="/board/list" class="btn btn-dark">목록</a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </form>
+
+
+
+
+
+
+
+
+
+    </div>
+
+</body>
+</html>

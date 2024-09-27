@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout1.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div layout:fragment="content">
+
+
+        <script th:inline="javascript">
+            let msg = [[${msg}]]
+
+            if(msg != null){
+                alert(msg)
+            }
+        </script>
+
+
+
+        <form action="/user/register" method="post" th:object="${memberShipDTO}">
+            <div class="row mt-5">
+                <div class="col shadow">
+                    <div class="mb-3 mt-3">
+                        <label for="email" class="form-label">이메일</label>
+                        <input type="email" class="form-control"  th:field="*{email}" id="email" placeholder="여기다가 이멜을써봐"  required>
+                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"  class="fieldError">
+
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="password" class="form-label">password</label>
+                        <input type="text" class="form-control"  th:field="*{password}" id="password" placeholder="여기다가 비밀번" required>
+                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"  class="fieldError">
+
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="address" class="form-label">주소</label>
+                        <input type="text" class="form-control"  th:field="*{address}" id="address" placeholder="여기다가 주소">
+                        <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}"  class="fieldError">
+
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="content" class="form-label">이름</label>
+                        <input type="text" class="form-control"  th:field="*{name}" id="name" placeholder="여기다가 이름을써봐">
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"  class="fieldError">
+
+                        <div class="text-center mt-4">
+                            <button  class="btn btn-dark">저장</button>
+                            <a type="button" href="/board/list" class="btn btn-dark">목록</a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </form>
+
+
+
+
+
+
+
+
+
+    </div>
+
+</body>
+</html>
