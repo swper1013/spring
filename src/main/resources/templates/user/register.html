@@ -52,6 +52,8 @@
                         <input type="text" class="form-control"  th:field="*{name}" id="name" placeholder="여기다가 이름을써봐">
                         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"  class="fieldError">
 
+
+
                         <div class="text-center mt-4">
                             <button  class="btn btn-dark">저장</button>
                             <a type="button" href="/board/list" class="btn btn-dark">목록</a>

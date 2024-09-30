@@ -4,12 +4,13 @@ import com.example.demo.dto.BoardDTO;
 import com.example.demo.dto.PageRequestDTO;
 import com.example.demo.dto.PageResponesDTO;
 import com.example.demo.entity.Board;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface BoardService {
 
-    public void register(BoardDTO boardDTO);
+    public void register(BoardDTO boardDTO, MultipartFile multipartFile);
 
     public List<BoardDTO> selectAll();
 

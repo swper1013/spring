@@ -40,7 +40,8 @@ public class SecurityConfig {
 //                                .requestMatchers("/replies/remove/**").authenticated()
 
                                 .requestMatchers("/user/login/**","/user/signup","/css/**", "/js/**", "/img/**").permitAll()
-                                .requestMatchers("/board/list").authenticated()
+                                .requestMatchers("/board/register").authenticated()
+
 //                                .requestMatchers("/user/list").hasRole("ADMIN")
 
                                 .requestMatchers("/user/list").hasAnyRole("ADMIN")

@@ -13,7 +13,7 @@
 
 
 
-        <form action="/board/register" method="post" th:object="${boardDTO}">
+        <form action="/board/register" method="post" th:object="${boardDTO}" enctype="multipart/form-data">
             <div class="row mt-5">
                 <div class="col shadow">
                     <div class="mb-3 mt-3">
@@ -27,12 +27,22 @@
                         <textarea class="form-control" th:field="*{content}" id="content" rows="3"></textarea>
                         <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"  class="fieldError">
 
+
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="content" class="form-label">사진</label>
+                        <input class="form-control" type="file" name="multipartFile" id="" >
+
                         <div class="text-center mt-4">
                             <button  class="btn btn-dark">저장</button>
                             <a type="button" href="/board/list" class="btn btn-dark">목록</a>
                         </div>
 
                     </div>
+
+
                 </div>
 
 

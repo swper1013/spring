@@ -1,12 +1,13 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.dto.BoardDTO;
-import com.example.demo.dto.PageRequestDTO;
-import com.example.demo.dto.PageResponesDTO;
+import com.example.demo.dto.*;
 import com.example.demo.entity.Board;
+import com.example.demo.entity.MemberShip;
 import com.example.demo.repository.search.BoardSearch;
+import com.example.demo.service.BimgSerivce;
 import com.example.demo.service.BoardService;
+import com.example.demo.service.MemberShipService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -16,8 +17,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -30,6 +35,9 @@ public class BoardController {
     private  final BoardService boardService;
     // 댓글도
     //이미지도
+    private final MemberShipService memberShipService;
+
+    private final BimgSerivce bimgSerivce;
 
     @GetMapping("/register")
     public  void register(BoardDTO boardDTO){
@@ -42,10 +50,25 @@ public class BoardController {
     }
 
     @PostMapping("/register")
-    public  String registerPost(@Valid BoardDTO boardDTO, BindingResult bindingResult, Model model
+    public  String registerPost(@Valid BoardDTO boardDTO, BindingResult bindingResult, Model model ,
+                                Principal principal  , MultipartFile multipartFile
                                 ){  //파라미터 리다이렉트 쓸때 추가 : RedirectAttributes redirectAttributes
 
         log.info("파라미터로 입력된 : " +boardDTO);
+
+        if(multipartFile != null){
+
+           // try {
+                log.info("사진 이름 : " +multipartFile.getOriginalFilename() );
+                log.info("사진 크기 : " +multipartFile.getSize() );
+                //log.info("사진의 byte : " + Arrays.toString(multipartFile.getBytes()));
+//            } catch (IOException ioException) {
+//                System.out.println("너님 사진 오류");
+//            }
+
+
+
+        }
 
         if(bindingResult.hasErrors()){ //유효성검사간 에러가 있니?
 
@@ -60,9 +83,11 @@ public class BoardController {
 
         }
 
+        MemberShipDTO memberShipDTO = memberShipService.findbyEmail(principal.getName());
 
+        boardDTO.setMemberShipDTO(memberShipDTO);
 
-        boardService.register(boardDTO);
+        boardService.register(boardDTO, multipartFile);
 
         return "redirect:/board/list";
     }
@@ -88,7 +113,17 @@ public class BoardController {
     @GetMapping("/read")
     public String readOne(Long bno, Model model){
 
-        model.addAttribute("boardDTO", boardService.read(bno));
+        BoardDTO boardDTO =   boardService.read(bno);
+
+        //본문에 달린 이미지를 가져온다.
+        BimgDTO bimgDTO = bimgSerivce.read(bno);
+
+
+
+        model.addAttribute("boardDTO",boardDTO);
+        model.addAttribute("bimgDTO",bimgDTO);
+
+
 
 
         return "board/read";

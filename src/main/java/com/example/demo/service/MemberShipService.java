@@ -35,6 +35,17 @@ public class MemberShipService  implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
 
+
+    public MemberShipDTO findbyEmail(String email){
+        MemberShip memberShip = memberShipRepository.findByEmail(email);
+
+        //dto변환
+
+
+        return mapper.map(memberShip, MemberShipDTO.class);
+
+    }
+
     
     //회원가입
     public void register(MemberShipDTO memberShipDTO){

@@ -1,8 +1,11 @@
 package com.example.demo.entity;
 
 
+import com.example.demo.dto.MemberShipDTO;
 import jakarta.persistence.*;
 import lombok.*;
+import org.modelmapper.ModelMapper;
+import org.springframework.ui.Model;
 
 @Entity //엔티티임을 명시
 @Getter
@@ -32,9 +35,19 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "mno")
     private MemberShip memberShip;
 
+
+    public Board setMemberShip(MemberShipDTO memberShipDTO) {
+        ModelMapper mapper = new ModelMapper();
+        MemberShip entity = mapper.map(memberShipDTO, MemberShip.class);
+        this.memberShip = entity;
+        return this;
+    }
+
     private String writer;
 
     //등록일자 혹은 만든이 기타등등이 들어감
+
+
 
 
     public Board setTitle(String title) {

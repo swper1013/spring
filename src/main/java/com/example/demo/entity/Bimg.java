@@ -16,15 +16,18 @@ public class Bimg extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bino;   //글번호 pk
+    private Long bino;   //사진번호 pk
 
-    private String uuid;
-    private String path;
-    private String fname;
+    private String imgname;     //사진의 이름        //경로를 알고 있고 경로/uuid_사진의오리지널이름.jpg
 
-    @ManyToOne
-    @JoinColumn(name = "mno")
-    private Board board;
+    private String oriimgname;  //사진의 오리지널 name
+
+    private String img_url;     //사진의 경로    /upload/board  게시글의 사진 저장경로
+                                //  /upload/item 게시글의 사진 저장경로
+
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name = "bno")       //본문 어디에 달리는 사진인가요? 어떤 아이템에 종속된 사진인가요?
+    private Board board;            //어떤 행사의 사진인가요? 어느회원의 프로필 사진인가요?
 
 
     //등록일자 혹은 만든이 기타등등이 들어감
